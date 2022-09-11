@@ -26,9 +26,9 @@ const isValidName = (name) => {
     return regx.test(name)
 };
 
-const isValidTitle = (name) => {
+const isValidTitle = (title) => {
     const regx = /^[A-Za-z0-9_ ]{2,}$/
-    return regx.test(name)
+    return regx.test(title)
 };
 
 module.exports = { isValidBody, isValidEmail, isValidObjectId, isValidPass, isValidName, isValidTitle }

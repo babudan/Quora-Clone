@@ -4,20 +4,28 @@ const bcrypt = require("bcrypt");
 
 const authorLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const data = req.body;
+        const { email, password } = data
 
-        if (!email || !password)
-            return res.status(404).send({ msg: 'Please fill details' })
+        if (Object.keys(data).length == 0)
+            return res.status(400).send({ status: false, msg: "Please fill data" });
+        
+        if (!email)
+            return res.status(401).send({ msg: 'Please fill email' })
+        
+        if (!password)
+            return res.status(401).send({ msg: 'Please fill password' })
         
         const existUser = await authorModel.findOne({email});
-        if (!existUser) {
-            return res.status(401).send({ status: false, message: "Unauthorized register first" }) 
-        }
+        if (!existUser) 
+            return res.status(401).send({ status: false, message: "Register first" }) 
+        
         // -----------------decoding for hashing password--------------------------
         const matchPass = await bcrypt.compare(password, existUser.password);
-        if (!matchPass) {
+        
+        if (!matchPass) 
             return res.status(400).send({ status: false, message: "You Entered Wrong password" })
-        }
+        
         //----------------------token generation-----------------------
         const token = jwt.sign({ authorId: existUser._id, group: "69" }, process.env.SECRET_KEY);
         res.setHeader("x-api-key", token)

@@ -2,11 +2,10 @@ const authorModel = require("../models/authorModel")
 const bcrypt = require("bcrypt");
 const validator = require("../validator/validator")
 
-
 const createAuthor = async (req, res) => {
     try {
         const data = req.body;
-        let { fname, lname, title, email, password } = req.body
+        let { fname, lname, title, email, password } = data
 
         if (Object.keys(data).length == 0)
             return res.status(400).send({ status: false, msg: "Please fill the data" });
@@ -25,8 +24,7 @@ const createAuthor = async (req, res) => {
         
         if (!validator.isValidBody(password) || !validator.isValidPass(password)) 
             return res.status(400).send({ status: false, message: "Enter password" });
-        
-
+        //------------------password hashing---------------------
         const hashPassword = await bcrypt.hash(password, 10);
         req.body.password = hashPassword
 
