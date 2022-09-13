@@ -11,7 +11,6 @@ router.get('/blogs', authentication, getBlog)
 router.put('/blogs/:blogId', authentication, authorization, updateBlog)
 router.delete('/blogs/:blogId', authentication, authorization, deleteBlog)
 router.delete('/blogs', authentication, deletedByQuery)
-
 router.post('/login', authorLogin)
 
 router.all("/**",  (req, res) => {

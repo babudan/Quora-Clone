@@ -1,13 +1,5 @@
 const mongoose = require("mongoose");
 
-//---------------------------------Body----------------------------------
-const isValidBody = (value) => {
-    if (typeof value == "undefined" || typeof value === null) return false
-    if (typeof value === "string" && value.trim().length === 0) return false
-    if (typeof value === "Number" && value.trim().length === 0) return false
-    return true
-};
-
 //--------------------------------email-------------------------------
 const isValidEmail = (email) => {
     const regx = /^([a-zA-Z0-9_.]+@[a-z]+\.[a-z]{2,3})?$/
@@ -32,9 +24,14 @@ const isValidName = (name) => {
 };
 
 //-------------------title---------------------
-const isValidTitle = (title) => {
-    const regx = /^[A-Za-z0-9_ ]{2,}$/
-    return regx.test(title)
+const isValidTitleEnum = (title) => {
+    return ["Mr", "Mrs", "Miss"].indexOf(title) !== -1
 };
 
-module.exports = { isValidBody, isValidEmail, isValidObjectId, isValidPass, isValidName, isValidTitle }
+//----------------text------------------
+const isValidText = (text) => {
+    const regx = /^[A-Za-z0-9_ ]{2,}$/
+    return regx.test(text)
+};
+
+module.exports = {  isValidEmail, isValidObjectId, isValidPass, isValidName, isValidText, isValidTitleEnum }

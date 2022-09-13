@@ -20,16 +20,16 @@ const authorLogin = async (req, res) => {
         
         //----------------email & password present or not in the body----------------
         if (!email)
-            return res.status(400).send({ msg: 'Please fill email' })
+            return res.status(400).send({ status: false, msg: 'Please fill email' })
         
         if (!password)
-            return res.status(400).send({ msg: 'Please fill password' })
+            return res.status(400).send({ status: false,  msg: 'Please fill password' })
         
          // --------------------- email, password validations------------------------
-        if (!validator.isValidBody(email) || !validator.isValidEmail(email))
+        if (!validator.isValidEmail(email))
             return res.status(400).send({ status: false, message: "Wrong email" })
 
-        if (!validator.isValidBody(password) || !validator.isValidPass(password))
+        if (!validator.isValidPass(password))
             return res.status(400).send({ status: false, message: "Wrong password" });
     
          // ---------------------------verifying author------------------------------
@@ -49,8 +49,10 @@ const authorLogin = async (req, res) => {
         return res.status(200).send({ status: true, token: token })
     }
     catch (err) {
-        res.status(500).send({ error: err.message })
+        res.status(500).send({ status: false, error: err.message })
     }
 }
 
 module.exports = { authorLogin }
+
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JJZCI6IjYzMjBjY2U4NThlYTM0MDFlMWVmNTQ2ZCIsImdyb3VwIjoiNjkiLCJpYXQiOjE2NjMwOTU0ODJ9.S2G1GdniolW5scW1xRib5gGxR9V9MJIRZLIeOa2tE3k

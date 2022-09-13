@@ -2,11 +2,11 @@ const mongoose = require("mongoose");
 
 const authorSchema = new mongoose.Schema(
     {
-        fname: { type: String, trim: true },
-        lname: { type: String },
+        fname: String ,
+        lname: String ,
         title: { type: String, enum: ["Mr", "Mrs", "Miss"] },
-        email: { type: String },
-        password: { type: String},
+        email: String ,
+        password:String 
     },
     { timestamps: true }
 );
