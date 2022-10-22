@@ -2,7 +2,7 @@ const authorModel = require("../models/authorModel")
 const bcrypt = require("bcrypt");
 const validator = require("../validator/validator")
 
-//-------------------------------------createAuthor-------------------------------------------
+// -------------------------------------createAuthor-------------------------------------------
 const createAuthor = async (req, res) => {
     try {
         const data = req.body;
@@ -29,6 +29,9 @@ const createAuthor = async (req, res) => {
 
         if (!email)
             return res.status(400).send({ status: false, msg: 'Please fill email' })
+          
+            const existauthor = await authorModel.findOne({email});
+            if(existauthor)  return res.status(400).send({ status: false, message: "Email is already present" }) 
 
         if (!password)
             return res.status(400).send({ status: false, msg: 'Please fill password' })
@@ -41,7 +44,7 @@ const createAuthor = async (req, res) => {
             return res.status(400).send({ status: false, message: "Enter valid last name" })
 
         if (!validator.isValidTitleEnum(title))
-            return res.status(400).send({ status: false, message: "Enter valid last title" })
+            return res.status(400).send({ status: false, message: "Enter valid title" })
 
         if (!validator.isValidEmail(email))
             return res.status(400).send({ status: false, message: "Enter valid email formate" })
@@ -56,11 +59,13 @@ const createAuthor = async (req, res) => {
         //-------------------author creation--------------------
         const newAuthor = await authorModel.create(data);
 
-        res.status(201).send({ status: true, data: newAuthor })
+       return  res.status(201).send({ status: true, message : "author created succesfully", data: newAuthor })
 
     } catch (err) {
-        res.status(500).send({ status:false, msg: err.message })
+        res.status(500).send({ status:false, message: err.message })
     }
 }
+
+
 
 module.exports = { createAuthor };
